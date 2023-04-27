@@ -21,7 +21,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "prepare": "husky install",
+    "lint": "eslint 'src/**/*.+(js|ts|jsx|tsx)'",
+    "format": " prettier --write 'src/**/*.+(js|ts|jsx|tsx)' "
   },
   "eslintConfig": {
     "extends": [
@@ -44,6 +47,7 @@
   "devDependencies": {
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.3",
     "prettier": "^2.8.8"
   }
 }
