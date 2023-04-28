@@ -21,10 +21,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prettier": "prettier --write .",
     "prepare": "husky install",
-    "lint": "eslint 'src/**/*.+(js|ts|jsx|tsx)'",
-    "format": " prettier --write 'src/**/*.+(js|ts|jsx|tsx)' "
+    "prettier": "prettier --write .",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "eslintConfig": {
     "extends": [
