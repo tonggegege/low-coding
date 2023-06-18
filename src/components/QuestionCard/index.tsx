@@ -1,40 +1,108 @@
 import React, { memo, useState } from 'react'
 import type { FC, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import { Space, Tag, Divider, Button, Popconfirm } from 'antd'
+import { Space, Tag, Divider, Button, Popconfirm, Modal } from 'antd'
 import {
   StarOutlined,
   EditOutlined,
   LineChartOutlined,
   CopyOutlined,
-  DeleteOutlined
+  DeleteOutlined,
+  ExclamationCircleOutlined
 } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
+import { useRequest } from 'ahooks'
 import { QuestionCardWrapper } from './style'
+import { fetchCopyQuestion, fetchModifyQuestion } from '../../service/question'
+
+const { confirm } = Modal
 
 interface IProps {
   children?: ReactNode
+  starPage?: boolean
   _id: string
   title: string
   isStar: boolean
   isPublished: boolean
+  isDeleted: boolean
   answerCount: number
   createdAt: string
 }
 
 const QuestionCard: FC<IProps> = (props) => {
-  const { _id, title, isStar, isPublished, answerCount, createdAt } = props
+  const {
+    _id,
+    title,
+    isStar,
+    isPublished,
+    isDeleted,
+    answerCount,
+    createdAt,
+    starPage
+  } = props
 
   const [isStarState, setIsStarState] = useState(isStar)
+  const [isDeletedState, setIsDeletedState] = useState(isDeleted)
 
   const nav = useNavigate()
 
-  const changeStars = () => {
-    setIsStarState(!isStarState)
-  }
+  // 标星
+  const { run: handleChangeStar, loading: changeStarLoading } = useRequest(
+    async () => {
+      const data = await fetchModifyQuestion(_id, { isStar: !isStarState })
+      return data
+    },
+    {
+      manual: true,
+      onSuccess() {
+        setIsStarState(!isStarState)
+      }
+    }
+  )
+
+  // 复制
+  const { run: handleCopyQuestion, loading: copyLoading } = useRequest(
+    async () => {
+      const data = await fetchCopyQuestion(_id)
+      return data
+    },
+    {
+      manual: true,
+      onSuccess(data) {
+        nav({
+          pathname: `/question/edit/${data.id}`
+        })
+      }
+    }
+  )
+
+  // 删除
+  const { run: handleDelete, loading: deleteLoading } = useRequest(
+    async () => {
+      await fetchModifyQuestion(_id, { isDeleted: !isDeleted })
+    },
+    {
+      manual: true,
+      onSuccess() {
+        setIsDeletedState(!isDeleted)
+      }
+    }
+  )
 
   const del = () => {
-    console.log('111')
+    confirm({
+      title: '确定删除该问卷？',
+      icon: <ExclamationCircleOutlined />,
+      onOk: handleDelete
+    })
+  }
+
+  if (isDeletedState) {
+    return null
+  }
+
+  if (!isStarState && starPage) {
+    return null
   }
 
   return (
@@ -94,12 +162,23 @@ const QuestionCard: FC<IProps> = (props) => {
               type="text"
               icon={<StarOutlined />}
               size="small"
-              onClick={changeStars}
+              onClick={handleChangeStar}
+              disabled={changeStarLoading}
             >
               {isStarState ? '取消标星' : '标星'}
             </Button>
-            <Popconfirm title="确定复制该问卷" okText="确定" cancelText="取消">
-              <Button type="text" icon={<CopyOutlined />} size="small">
+            <Popconfirm
+              title="确定复制该问卷"
+              okText="确定"
+              cancelText="取消"
+              onConfirm={handleCopyQuestion}
+            >
+              <Button
+                type="text"
+                icon={<CopyOutlined />}
+                size="small"
+                disabled={copyLoading}
+              >
                 复制
               </Button>
             </Popconfirm>
@@ -108,6 +187,7 @@ const QuestionCard: FC<IProps> = (props) => {
               icon={<DeleteOutlined />}
               size="small"
               onClick={del}
+              disabled={deleteLoading}
             >
               删除
             </Button>

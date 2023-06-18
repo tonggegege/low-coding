@@ -13,7 +13,7 @@ interface IOpt {
 
 function useQuestionRequest(opt?: IOpt) {
   const [searchParams] = useSearchParams()
-  const { data, loading, error } = useRequest(
+  const { data, loading, error, refresh } = useRequest(
     async () => {
       const keyword = searchParams.get(LIST_SEARCH_PARAM_KEY) || ''
       const page = parseInt(searchParams.get(LIST_SEARCH_PAGE) || '') || 1
@@ -32,7 +32,7 @@ function useQuestionRequest(opt?: IOpt) {
     }
   )
 
-  return { data, loading, error }
+  return { data, loading, error, refresh }
 }
 
 export default useQuestionRequest

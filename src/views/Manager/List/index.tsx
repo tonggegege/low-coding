@@ -41,7 +41,7 @@ const List: FC<IProps> = () => {
     },
     {
       manual: true,
-      onSuccess(result: any) {
+      onSuccess(result) {
         console.log(result)
         const { list: l = [], total = 0 } = result
         setList([...list, ...l])

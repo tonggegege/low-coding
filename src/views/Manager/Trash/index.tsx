@@ -1,10 +1,15 @@
 import React, { memo, useState } from 'react'
 import type { FC, ReactNode } from 'react'
 import { Typography, Empty, Space, Button, Table, Tag } from 'antd'
+import { useRequest } from 'ahooks'
 import { ManagerCommonWrapper } from '../style'
 import ListSearch from '../../../components/ListSearch/ListSearch'
 import useQuestionRequest from '../../../hooks/useQuestionRequest'
 import ListPagination from '../../../components/ListPagination/ListPagination'
+import {
+  fetchDeletedQuestion,
+  fetchModifyQuestion
+} from '../../../service/question'
 
 const { Title } = Typography
 
@@ -13,11 +18,41 @@ interface IProps {
 }
 
 const Trash: FC<IProps> = () => {
-  const { data, loading } = useQuestionRequest({ isDeleted: true })
+  const { data, loading, refresh } = useQuestionRequest({ isDeleted: true })
+  const [selectedIds, setSelectedIds] = useState<string[]>([])
+
+  const { run: refreshClick } = useRequest(
+    async () => {
+      for await (const id of selectedIds) {
+        fetchModifyQuestion(id, { isDeleted: false })
+      }
+    },
+    {
+      manual: true,
+      debounceWait: 500,
+      onSuccess() {
+        refresh()
+      }
+    }
+  )
+
+  const { run: handleDeleted } = useRequest(
+    async () => {
+      const data = await fetchDeletedQuestion(selectedIds)
+
+      return data
+    },
+    {
+      manual: true,
+      onSuccess(data) {
+        console.log(data)
+        setSelectedIds([])
+        refresh()
+      }
+    }
+  )
 
   const [isLoading] = useState(false)
-
-  const [selectedIds, setSelectedIds] = useState<string[]>([])
 
   const tableColumns = [
     {
@@ -50,8 +85,19 @@ const Trash: FC<IProps> = () => {
     <>
       <div style={{ marginBottom: '16px' }}>
         <Space>
-          <Button type="primary">恢复</Button>
-          <Button danger style={{ border: '1px solid #e8e8e8' }}>
+          <Button
+            type="primary"
+            disabled={selectedIds.length === 0}
+            onClick={refreshClick}
+          >
+            恢复
+          </Button>
+          <Button
+            danger
+            style={{ border: '1px solid #e8e8e8' }}
+            disabled={selectedIds.length === 0}
+            onClick={handleDeleted}
+          >
             彻底删除
           </Button>
         </Space>

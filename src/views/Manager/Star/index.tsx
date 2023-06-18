@@ -31,7 +31,7 @@ const Star: FC<IProps> = () => {
         {!loading &&
           data.list.map((q: any) => {
             const { _id } = q
-            return <QuestionCard key={_id} {...q} />
+            return <QuestionCard key={_id} {...q} starPage={true} />
           })}
       </div>
       <div className="footer">
