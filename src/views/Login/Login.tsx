@@ -47,7 +47,6 @@ const Login: FC<IProps> = () => {
 
   const handleFinish = (values: any) => {
     const { username, password, remember } = values
-    console.log(remember)
 
     if (remember) {
       rememberUserInfo(username, password)
