@@ -1,11 +1,13 @@
 import React, { memo, useEffect } from 'react'
 import type { FC, ReactNode } from 'react'
-import { Button, Checkbox, Form, Input, Space, Typography } from 'antd'
+import { Button, Checkbox, Form, Input, Space, Typography, message } from 'antd'
 import { UserAddOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
+import { useRequest } from 'ahooks'
 import { LoginWrapper } from './style'
 import { REGISTER_PATHNAME } from '../../router'
 import { localCache } from '../../utils/cache'
+import { fetchUserLogin } from '../../service/user'
 
 const USERNAME_KEY = 'USERNAME'
 const PASSWORD_KEY = 'PASSWORD'
@@ -36,6 +38,22 @@ interface IProps {
 const Login: FC<IProps> = () => {
   const [form] = Form.useForm()
 
+  const { run: handleUserLogin } = useRequest(
+    async (values) => {
+      const { username, password } = values
+      await fetchUserLogin(username, password)
+    },
+    {
+      manual: true,
+      onSuccess() {
+        message.success('登录成功')
+      },
+      onError() {
+        message.error('登录失败')
+      }
+    }
+  )
+
   useEffect(() => {
     const { username, password } = getUserInfo()
 
@@ -47,9 +65,9 @@ const Login: FC<IProps> = () => {
 
   const handleFinish = (values: any) => {
     const { username, password, remember } = values
-    console.log(remember)
 
     if (remember) {
+      handleUserLogin({ username, password })
       rememberUserInfo(username, password)
     } else {
       removeUserInfo()

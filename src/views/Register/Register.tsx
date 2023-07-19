@@ -1,10 +1,12 @@
 import React, { memo } from 'react'
 import type { FC, ReactNode } from 'react'
-import { Space, Typography, Form, Input, Button } from 'antd'
+import { Space, Typography, Form, Input, Button, message } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
+import { useRequest } from 'ahooks'
 import { RegisterWrapper } from './style'
 import { LOGIN_PATHNAME } from '../../router'
+import { fetchUserRegister } from '../../service/user'
 
 const { Title } = Typography
 
@@ -13,8 +15,25 @@ interface IProps {
 }
 
 const Register: FC<IProps> = () => {
+  const { run: handleRegisterClick } = useRequest(
+    async (values) => {
+      const { username, password, nickname } = values
+      await fetchUserRegister(username, password, nickname)
+    },
+    {
+      manual: true,
+      onSuccess() {
+        message.success('注册成功')
+      }
+    }
+  )
   const handleFinish = (values: any) => {
-    console.log(values)
+    const { nickname, username, password } = values
+    handleRegisterClick({
+      username,
+      password,
+      nickname: nickname || username
+    })
   }
 
   return (
