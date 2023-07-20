@@ -8,6 +8,7 @@ import { ManagerCommonWrapper } from '../style'
 import ListSearch from '../../../components/ListSearch/ListSearch'
 import { fetchQuestionList } from '../../../service/question'
 import { LIST_SEARCH_PARAM_KEY } from '../../../constant'
+import useNavPage from '../../../hooks/useNavPage'
 
 const { Title } = Typography
 
@@ -16,7 +17,8 @@ interface IProps {
 }
 
 const List: FC<IProps> = () => {
-  const [isStart, setIsStart] = useState<boolean>(true)
+  useNavPage()
+  const [_, setIsStart] = useState<boolean>(true)
   const [isBottom, setIsBottom] = useState<boolean>(false)
   const [list, setList] = useState<any[]>([])
   const [page, setPage] = useState<number>(1)
@@ -29,7 +31,7 @@ const List: FC<IProps> = () => {
   const keyword = searchParams.get(LIST_SEARCH_PARAM_KEY) || ''
 
   // run：手动触发
-  const { run: load, loading } = useRequest(
+  const { run: load } = useRequest(
     async () => {
       const data = await fetchQuestionList({
         page,
@@ -42,7 +44,6 @@ const List: FC<IProps> = () => {
     {
       manual: true,
       onSuccess(result) {
-        console.log(result)
         const { list: l = [], total = 0 } = result
         setList([...list, ...l])
         setTotal(total)

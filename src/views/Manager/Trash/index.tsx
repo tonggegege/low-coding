@@ -10,6 +10,7 @@ import {
   fetchDeletedQuestion,
   fetchModifyQuestion
 } from '../../../service/question'
+import useNavPage from '../../../hooks/useNavPage'
 
 const { Title } = Typography
 
@@ -18,6 +19,7 @@ interface IProps {
 }
 
 const Trash: FC<IProps> = () => {
+  useNavPage()
   const { data, loading, refresh } = useQuestionRequest({ isDeleted: true })
   const [selectedIds, setSelectedIds] = useState<string[]>([])
 

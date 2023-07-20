@@ -1,11 +1,12 @@
-import React, { memo } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import type { FC, ReactNode } from 'react'
 import { Button, Typography } from 'antd'
 import { useNavigate } from 'react-router-dom'
-import { useRequest } from 'ahooks'
+import { useSelector } from 'react-redux'
 import { HomeWrapper } from './style'
 import { LOGIN_PATHNAME, MANAGE_INDEX_PATHNAME } from '../../router'
-import { fetchUserInfo } from '../../service/user'
+import { StateType } from '../../store'
+import { IState as userIState } from '../../store/modules/homeReducer'
 
 const { Title, Paragraph } = Typography
 
@@ -14,25 +15,26 @@ interface IProps {
 }
 
 const Home: FC<IProps> = () => {
+  const user = useSelector<StateType>(
+    (state) => state.homeReducer
+  ) as userIState
+
+  const [isLoading, setLoading] = useState<boolean>(user.userInfo.loading)
+
+  useEffect(() => {
+    setLoading(!isLoading)
+  }, [user])
+
   const nav = useNavigate()
 
-  const { run: handleStartClick } = useRequest(
-    async () => {
-      const data = await fetchUserInfo()
-      return data
-    },
-    {
-      manual: true,
-      onSuccess(data) {
-        const dataKeys = Reflect.ownKeys(data)
-        if (dataKeys.length === 0) {
-          nav(LOGIN_PATHNAME)
-        } else {
-          nav(MANAGE_INDEX_PATHNAME)
-        }
-      }
+  function handleStartClick() {
+    const dataKeys = Reflect.ownKeys(user.userInfo)
+    if (dataKeys.length === 0) {
+      nav(LOGIN_PATHNAME)
+    } else {
+      nav(MANAGE_INDEX_PATHNAME)
     }
-  )
+  }
 
   return (
     <HomeWrapper>
@@ -42,7 +44,11 @@ const Home: FC<IProps> = () => {
           已累计创建问卷 100 份，发布问卷 90 份，收到答卷 980 份
         </Paragraph>
         <div>
-          <Button type="primary" onClick={handleStartClick}>
+          <Button
+            type="primary"
+            disabled={!isLoading}
+            onClick={handleStartClick}
+          >
             开始使用
           </Button>
         </div>

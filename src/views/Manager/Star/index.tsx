@@ -6,6 +6,7 @@ import QuestionCard from '../../../components/QuestionCard'
 import ListSearch from '../../../components/ListSearch/ListSearch'
 import useQuestionRequest from '../../../hooks/useQuestionRequest'
 import ListPagination from '../../../components/ListPagination/ListPagination'
+import useNavPage from '../../../hooks/useNavPage'
 
 const { Title } = Typography
 
@@ -14,6 +15,7 @@ interface IProps {
 }
 
 const Star: FC<IProps> = () => {
+  useNavPage()
   const { data, loading } = useQuestionRequest({ isStar: true })
 
   return (

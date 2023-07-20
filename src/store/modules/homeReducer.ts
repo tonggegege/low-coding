@@ -1,16 +1,18 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
-interface IState {
+export interface IState {
   userInfo: {
     username: string
     nickname: string
+    loading: boolean
   }
 }
 
 const initialState: IState = {
   userInfo: {
     username: '',
-    nickname: ''
+    nickname: '',
+    loading: true
   }
 }
 
@@ -20,6 +22,7 @@ const homeSlice = createSlice({
   reducers: {
     saveUserInfo(state, { payload }) {
       state.userInfo = payload
+      console.log(payload, 'payload')
     }
   }
 })

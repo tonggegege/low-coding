@@ -7,6 +7,7 @@ import { useRequest } from 'ahooks'
 import { RegisterWrapper } from './style'
 import { LOGIN_PATHNAME } from '../../router'
 import { fetchUserRegister } from '../../service/user'
+import useNavPage from '../../hooks/useNavPage'
 
 const { Title } = Typography
 
@@ -15,6 +16,7 @@ interface IProps {
 }
 
 const Register: FC<IProps> = () => {
+  useNavPage()
   const { run: handleRegisterClick } = useRequest(
     async (values) => {
       const { username, password, nickname } = values

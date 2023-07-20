@@ -1,5 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
-import homeReducer from './modules/homeReducer'
+import homeReducer, { IState as homeIState } from './modules/homeReducer'
+
+export interface StateType {
+  homeReducer: homeIState
+}
 
 const store = configureStore({
   reducer: {

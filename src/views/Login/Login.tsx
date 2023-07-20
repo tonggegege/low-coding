@@ -8,6 +8,7 @@ import { LoginWrapper } from './style'
 import { REGISTER_PATHNAME } from '../../router'
 import { localCache } from '../../utils/cache'
 import { fetchUserLogin } from '../../service/user'
+import useNavPage from '../../hooks/useNavPage'
 
 const USERNAME_KEY = 'USERNAME'
 const PASSWORD_KEY = 'PASSWORD'
@@ -36,6 +37,7 @@ interface IProps {
 }
 
 const Login: FC<IProps> = () => {
+  useNavPage()
   const [form] = Form.useForm()
 
   const { run: handleUserLogin } = useRequest(

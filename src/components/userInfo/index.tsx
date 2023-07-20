@@ -2,19 +2,20 @@ import React, { memo } from 'react'
 import type { FC, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from 'antd'
+import { UserOutlined } from '@ant-design/icons'
 
 import { LOGIN_PATHNAME } from '../../router'
-import { useRequest } from 'ahooks'
-import { fetchUserInfo } from '../../service/user'
-import { UserOutlined } from '@ant-design/icons'
+import useLoadUserData from '../../hooks/useLoadUserData'
 
 interface IProps {
   children?: ReactNode
 }
 
 const UserInfo: FC<IProps> = () => {
-  const { data, loading } = useRequest(async () => await fetchUserInfo())
-  const { nickname } = data || {}
+  const { userInfo, loading } = useLoadUserData()
+  console.log(userInfo)
+
+  const { nickname } = userInfo || {}
 
   const UseInfo = (
     <>
@@ -30,7 +31,7 @@ const UserInfo: FC<IProps> = () => {
 
   return (
     <div>
-      {!loading && Reflect.ownKeys(data).length === 0 ? Login : UseInfo}
+      {!loading && Reflect.ownKeys(userInfo).length === 0 ? Login : UseInfo}
     </div>
   )
 }
