@@ -22,7 +22,6 @@ const homeSlice = createSlice({
   reducers: {
     saveUserInfo(state, { payload }) {
       state.userInfo = payload
-      console.log(payload, 'payload')
     }
   }
 })
