@@ -9,6 +9,7 @@ import {
   REGISTER_PATHNAME
 } from '../router'
 
+// 判断是否有用户信息跳转具体页面
 function useNavPage() {
   const nav = useNavigate()
   const { pathname } = useLocation()
