@@ -47,7 +47,6 @@ const Trash: FC<IProps> = () => {
     {
       manual: true,
       onSuccess(data) {
-        console.log(data)
         setSelectedIds([])
         refresh()
       }

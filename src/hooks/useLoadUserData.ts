@@ -38,7 +38,6 @@ function useLoadUserData() {
   useEffect(() => {
     if (!user.userInfo.username) {
       handleReloadData()
-      console.log('1111')
     }
   }, [user])
 

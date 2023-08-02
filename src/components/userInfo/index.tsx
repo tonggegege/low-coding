@@ -13,7 +13,6 @@ interface IProps {
 
 const UserInfo: FC<IProps> = () => {
   const { userInfo, loading } = useLoadUserData()
-  console.log(userInfo)
 
   const { nickname } = userInfo || {}
 

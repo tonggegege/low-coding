@@ -61,7 +61,6 @@ const Login: FC<IProps> = () => {
 
     if (username && password) {
       form.setFieldsValue({ username, password })
-      console.log(username, password)
     }
   }, [])
 
