@@ -19,6 +19,22 @@ const componentConfList: ComponentConfType[] = [
   QuestionInputConf
 ]
 
+interface componentCategoryListIState {
+  categoryTitle: string
+  componentConfs: ComponentConfType[]
+}
+
+export const componentCategoryList: componentCategoryListIState[] = [
+  {
+    categoryTitle: '系列一',
+    componentConfs: [QuestionTitleConf]
+  },
+  {
+    categoryTitle: '系列二',
+    componentConfs: [QuestionInputConf]
+  }
+]
+
 export function getComponentConfByType(type: string) {
   return componentConfList.find((c) => c.type === type)
 }

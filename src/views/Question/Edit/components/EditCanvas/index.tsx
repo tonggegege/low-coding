@@ -1,12 +1,12 @@
-import React, { memo } from 'react'
+import React, { memo, MouseEvent } from 'react'
 import type { FC, ReactNode } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { EditCanvasWrapper } from './style'
+import classNames from 'classnames'
 import { StateType } from '../../../../../store'
+import { changeSelectedAction } from '../../../../../store/modules/editReducer'
 import { IState as editState } from '../../../../../store/modules/editReducer'
 import { getComponentConfByType } from '../../../../../components/QuestionComponents'
-import QuestionTitle from '../../../../../components/QuestionComponents/QuestionTitle'
-import QuestionInput from '../../../../../components/QuestionComponents/QuestionInput'
 
 interface IProps {
   children?: ReactNode
@@ -17,7 +17,13 @@ const EditCanvas: FC<IProps> = () => {
     (state) => state.editReducer
   ) as editState
 
-  console.log(editState)
+  const dispatch = useDispatch()
+
+  function handleComponentClick(e: MouseEvent, id: string) {
+    e.stopPropagation()
+    dispatch(changeSelectedAction(id))
+  }
+
   return (
     <EditCanvasWrapper>
       {editState.ComponentConf.length !== 0 &&
@@ -26,23 +32,21 @@ const EditCanvas: FC<IProps> = () => {
             singerComponentConf.type
           )!
           return (
-            <div className="component-wrapper" key={singerComponentConf.fe_id}>
+            <div
+              className={classNames('component-wrapper', {
+                active: singerComponentConf.fe_id === editState.selectId
+              })}
+              key={singerComponentConf.fe_id}
+              onClick={(e) =>
+                handleComponentClick(e, singerComponentConf.fe_id)
+              }
+            >
               <div className="component">
                 <singerComponent.Component {...singerComponentConf.props} />
               </div>
             </div>
           )
         })}
-      {/* <div className="component-wrapper">
-        <div className="component">
-          <QuestionTitle />
-        </div>
-      </div>
-      <div className="component-wrapper">
-        <div className="component">
-          <QuestionInput />
-        </div>
-      </div> */}
     </EditCanvasWrapper>
   )
 }

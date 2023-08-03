@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import type { FC, ReactNode } from 'react'
+import type { FC } from 'react'
 import { Typography, Input } from 'antd'
 import { QuestionInputWrapper } from './style'
 import { QuestionInputPropsType, QuestionInputDefaultProps } from './interface'

@@ -1,17 +1,24 @@
 import React, { memo, Fragment } from 'react'
 import type { FC, ReactNode } from 'react'
 import { Spin } from 'antd'
+import { useDispatch } from 'react-redux'
 import EditHeader from './components/EditHeader'
 import { EditWrapper } from './style'
 import EditCanvas from './components/EditCanvas'
 import useLoadEditData from '../../../hooks/useLoadEditData'
-
+import { changeSelectedAction } from '../../../store/modules/editReducer'
+import EditLeftPanel from './components/EditLeftPanel'
 interface IProps {
   children?: ReactNode
 }
 
 const Edit: FC<IProps> = () => {
   const { loading } = useLoadEditData()
+  const dispatch = useDispatch()
+
+  function handleSelectedClear() {
+    dispatch(changeSelectedAction(''))
+  }
 
   return (
     <EditWrapper>
@@ -22,8 +29,10 @@ const Edit: FC<IProps> = () => {
           <EditHeader />
           <div className="bottom">
             <div className="content-wrapper">
-              <div className="left">left</div>
-              <div className="main">
+              <div className="left">
+                <EditLeftPanel />
+              </div>
+              <div className="main" onClick={handleSelectedClear}>
                 <div className="canvas-wrapper">
                   <EditCanvas />
                 </div>

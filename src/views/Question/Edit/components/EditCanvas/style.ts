@@ -14,6 +14,10 @@ export const EditCanvasWrapper = styled.div`
     &:hover {
       border-color: #d9d9d9;
     }
+
+    &.active {
+      border: 1px solid blue;
+    }
   }
 
   /* 阻止鼠标事件 */
