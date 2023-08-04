@@ -10,11 +10,13 @@ export interface ComponentConfType {
 export interface IState {
   ComponentConf: ComponentConfType[]
   selectId: string
+  Component: ComponentConfType | null
 }
 
 const initialState: IState = {
   ComponentConf: [],
-  selectId: ''
+  selectId: '',
+  Component: null
 }
 
 const editReducer = createSlice({
@@ -31,7 +33,6 @@ const editReducer = createSlice({
       const selectId = state.selectId
 
       if (!selectId) {
-        console.log(...state.ComponentConf)
         state.ComponentConf = [...state.ComponentConf, payload]
       } else {
         const index = state.ComponentConf.findIndex(
@@ -40,10 +41,24 @@ const editReducer = createSlice({
         // 数据不可变原则
         saveEditData(state.ComponentConf.splice(index + 1, 0, payload))
       }
+    },
+    editComponentConfAction(state, { payload }) {
+      const componentConf = state.ComponentConf.find(
+        (componentConf) => componentConf.fe_id === state.selectId
+      )
+
+      if (!componentConf) return
+
+      componentConf.props = payload
+      saveEditData(state.ComponentConf)
     }
   }
 })
 
-export const { saveEditData, changeSelectedAction, addCompontConfAction } =
-  editReducer.actions
+export const {
+  saveEditData,
+  changeSelectedAction,
+  addCompontConfAction,
+  editComponentConfAction
+} = editReducer.actions
 export default editReducer.reducer

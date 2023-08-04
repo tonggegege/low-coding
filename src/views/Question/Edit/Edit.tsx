@@ -8,6 +8,7 @@ import EditCanvas from './components/EditCanvas'
 import useLoadEditData from '../../../hooks/useLoadEditData'
 import { changeSelectedAction } from '../../../store/modules/editReducer'
 import EditLeftPanel from './components/EditLeftPanel'
+import EditRightPanel from './components/EditRightPanel'
 interface IProps {
   children?: ReactNode
 }
@@ -37,7 +38,9 @@ const Edit: FC<IProps> = () => {
                   <EditCanvas />
                 </div>
               </div>
-              <div className="right">right</div>
+              <div className="right">
+                <EditRightPanel />
+              </div>
             </div>
           </div>
         </Fragment>

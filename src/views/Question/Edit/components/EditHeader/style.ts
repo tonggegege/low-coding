@@ -16,7 +16,7 @@ export const EditHeaderWrapper = styled.div`
     }
 
     .left {
-      flex: 1;
+      left: 1;
     }
 
     .main {
@@ -25,7 +25,7 @@ export const EditHeaderWrapper = styled.div`
     }
 
     .right {
-      flex: 1;
+      left: 1;
       text-align: right;
     }
   }

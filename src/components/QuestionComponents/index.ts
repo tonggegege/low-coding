@@ -11,10 +11,11 @@ export type ComponentConfType = {
   title: string
   type: string
   Component: FC<componentPropsType>
+  PropComponent: FC<componentPropsType>
   defaultProps: componentPropsType
 }
 
-const componentConfList: ComponentConfType[] = [
+export const componentConfList: ComponentConfType[] = [
   QuestionTitleConf,
   QuestionInputConf
 ]
