@@ -38,6 +38,7 @@ const EditRightPanel: FC<IProps> = () => {
         return
       }
 
+      // 999 onchange
       setComponent(<PropsComponent.PropComponent {...componentConf.props} />)
     }
   }, [editState.selectId])
