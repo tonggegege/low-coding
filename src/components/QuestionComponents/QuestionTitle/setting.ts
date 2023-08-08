@@ -6,5 +6,7 @@ export default {
   type: 'questionTitle',
   Component,
   PropComponent,
-  defaultProps: QuestionTitleDefaultProps
+  defaultProps: QuestionTitleDefaultProps,
+  isVisable: true,
+  isLock: false
 }

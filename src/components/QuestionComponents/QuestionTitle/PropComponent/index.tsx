@@ -51,6 +51,7 @@ const PropComponent: FC<QuestionTitlePropsType> = (
       layout="vertical"
       onValuesChange={handleValueChange}
       initialValues={props}
+      disabled={props.isLock}
     >
       <Form.Item label="标题" name="text">
         <Input placeholder="请输入标题..." />

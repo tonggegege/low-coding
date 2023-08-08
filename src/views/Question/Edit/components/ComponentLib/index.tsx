@@ -21,7 +21,8 @@ const ComponentLib: FC<IProps> = () => {
       fe_id: nanoid(),
       title,
       type,
-      props
+      props,
+      isVisable: true
     }
 
     dispatch(addCompontConfAction(addToStoreComponent))

@@ -39,9 +39,14 @@ const EditRightPanel: FC<IProps> = () => {
       }
 
       // 999 onchange
-      setComponent(<PropsComponent.PropComponent {...componentConf.props} />)
+      setComponent(
+        <PropsComponent.PropComponent
+          {...componentConf.props}
+          isLock={componentConf.isLock}
+        />
+      )
     }
-  }, [editState.selectId])
+  }, [editState])
 
   const tabsItem = [
     {

@@ -27,21 +27,28 @@ const EditCanvas: FC<IProps> = () => {
   return (
     <EditCanvasWrapper>
       {editState.ComponentConf.length !== 0 &&
-        editState.ComponentConf.map((singerComponentConf) => {
+        editState.ComponentConf.map((singerComponentConf, index) => {
           const singerComponent = getComponentConfByType(
             singerComponentConf.type
           )!
+
           return (
             <div
               className={classNames('component-wrapper', {
                 active: singerComponentConf.fe_id === editState.selectId
               })}
-              key={singerComponentConf.fe_id}
+              key={index}
               onClick={(e) =>
                 handleComponentClick(e, singerComponentConf.fe_id)
               }
             >
-              <div className="component">
+              <div
+                className="component"
+                style={{
+                  display: singerComponentConf.isVisable ? 'block' : 'none'
+                }}
+              >
+                {/* main展示 */}
                 <singerComponent.Component {...singerComponentConf.props} />
               </div>
             </div>

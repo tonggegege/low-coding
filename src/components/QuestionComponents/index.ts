@@ -13,6 +13,8 @@ export type ComponentConfType = {
   Component: FC<componentPropsType>
   PropComponent: FC<componentPropsType>
   defaultProps: componentPropsType
+  isVisable: boolean
+  isLock: boolean
 }
 
 export const componentConfList: ComponentConfType[] = [

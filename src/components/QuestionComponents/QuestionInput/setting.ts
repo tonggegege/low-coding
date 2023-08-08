@@ -7,5 +7,7 @@ export default {
   type: 'questionInput',
   Component,
   PropComponent,
-  defaultProps: QuestionInputDefaultProps
+  defaultProps: QuestionInputDefaultProps,
+  isVisable: true,
+  isLock: false
 }
