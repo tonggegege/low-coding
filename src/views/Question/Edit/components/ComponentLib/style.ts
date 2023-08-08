@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const ComponentLibWrapper = styled.div`
   .item {
-    .componentConfList {
+    .component-wrapper {
       border: 1px solid #fff;
       border-radius: 3px;
       padding: 12px;

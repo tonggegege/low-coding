@@ -5,7 +5,12 @@ import QuestionTitleConf from './QuestionTitle/setting'
 import { QuestionInputPropsType } from './QuestionInput/interface'
 import QuestionInputConf from './QuestionInput/setting'
 
-export type componentPropsType = QuestionTitlePropsType & QuestionInputPropsType
+import { QuestionParagraphyPropsType } from './QuestionParagraphy/interface'
+import QuestionParagraphyConf from './QuestionParagraphy/setting'
+
+export type componentPropsType = QuestionTitlePropsType &
+  QuestionInputPropsType &
+  QuestionParagraphyPropsType
 
 export type ComponentConfType = {
   title: string
@@ -18,6 +23,7 @@ export type ComponentConfType = {
 }
 
 export const componentConfList: ComponentConfType[] = [
+  QuestionParagraphyConf,
   QuestionTitleConf,
   QuestionInputConf
 ]
@@ -30,7 +36,7 @@ interface componentCategoryListIState {
 export const componentCategoryList: componentCategoryListIState[] = [
   {
     categoryTitle: '系列一',
-    componentConfs: [QuestionTitleConf]
+    componentConfs: [QuestionTitleConf, QuestionParagraphyConf]
   },
   {
     categoryTitle: '系列二',
